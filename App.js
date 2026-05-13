@@ -12,8 +12,11 @@ const buttons = [
 const MAX_DISPLAY_LENGTH = 12;
 
 const calculate = (left, right, operator) => {
+  if (left === 'Erro' || right === 'Erro') return 'Erro';
+
   const first = Number(left);
   const second = Number(right);
+  if (Number.isNaN(first) || Number.isNaN(second)) return 'Erro';
 
   if (operator === '+') return String(first + second);
   if (operator === '-') return String(first - second);
@@ -54,6 +57,8 @@ export default function App() {
   };
 
   const handleOperator = (nextOperator) => {
+    if (display === 'Erro') return;
+
     if (storedValue !== null && operator && !isNewValue) {
       const result = calculate(storedValue, display, operator);
       setDisplay(result);
@@ -67,6 +72,7 @@ export default function App() {
   };
 
   const handleEquals = () => {
+    if (display === 'Erro') return;
     if (storedValue === null || !operator) return;
 
     const result = calculate(storedValue, display, operator);
