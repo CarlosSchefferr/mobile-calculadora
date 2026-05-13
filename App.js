@@ -9,6 +9,7 @@ const buttons = [
   ['1', '2', '3', '-'],
   ['C', '0', '=', '+'],
 ];
+const MAX_DISPLAY_LENGTH = 12;
 
 const calculate = (left, right, operator) => {
   const first = Number(left);
@@ -34,6 +35,8 @@ export default function App() {
   const handleNumber = (value) => {
     if (display === 'Erro') {
       setDisplay(value);
+      setStoredValue(null);
+      setOperator(null);
       setIsNewValue(false);
       return;
     }
@@ -44,7 +47,10 @@ export default function App() {
       return;
     }
 
-    setDisplay((current) => (current === '0' ? value : `${current}${value}`));
+    setDisplay((current) => {
+      if (current.length >= MAX_DISPLAY_LENGTH) return current;
+      return current === '0' ? value : `${current}${value}`;
+    });
   };
 
   const handleOperator = (nextOperator) => {
